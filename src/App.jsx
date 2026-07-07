@@ -2,8 +2,11 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { TweetsProvider } from "./context/TweetsContext";
+import { AuthProvider } from "./context/AuthContext";
 import {
   getUsernameFromStorage,
   saveUsernameToStorage,
@@ -19,23 +22,36 @@ function App() {
 
   return (
     <HashRouter>
-      <TweetsProvider userName={userName}>
+      <AuthProvider>
         <Navbar />
 
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <TweetsProvider userName={userName}>
+                  <HomePage />
+                </TweetsProvider>
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/profile"
             element={
-              <ProfilePage
-                userName={userName}
-                onChangeUserName={handleChangeUserName}
-              />
+              <ProtectedRoute>
+                <ProfilePage
+                  userName={userName}
+                  onChangeUserName={handleChangeUserName}
+                />
+              </ProtectedRoute>
             }
           />
         </Routes>
-      </TweetsProvider>
+      </AuthProvider>
     </HashRouter>
   );
 }
