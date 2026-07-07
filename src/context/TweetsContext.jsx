@@ -3,33 +3,77 @@ import { createTweet, getTweets } from "../lib/tweetsApi";
 
 const TweetsContext = createContext();
 
+const PAGE_SIZE = 10;
+
 function sortTweetsByDate(tweets) {
   return [...tweets].sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 export function TweetsProvider({ children, userName }) {
   const [tweets, setTweets] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   const [error, setError] = useState("");
 
-  async function loadTweets() {
+  async function loadFirstTweets() {
     try {
+      setIsLoading(true);
       setError("");
 
-      const tweetsFromServer = await getTweets();
-      setTweets(sortTweetsByDate(tweetsFromServer));
+      const result = await getTweets(0, PAGE_SIZE);
+
+      setTweets(sortTweetsByDate(result.tweets));
+      setHasMore(result.hasMore);
+      setPage(0);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  async function firstLoadTweets() {
+  async function loadMoreTweets() {
+    if (isLoadingMore || !hasMore) {
+      return;
+    }
+
     try {
-      setIsLoading(true);
-      await loadTweets();
+      setIsLoadingMore(true);
+      setError("");
+
+      const nextPage = page + 1;
+      const result = await getTweets(nextPage, PAGE_SIZE);
+
+      setTweets((currentTweets) =>
+        sortTweetsByDate([...currentTweets, ...result.tweets]),
+      );
+
+      setHasMore(result.hasMore);
+      setPage(nextPage);
+    } catch (err) {
+      setError(err.message);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMore(false);
+    }
+  }
+
+  async function refreshLoadedTweets() {
+    try {
+      setError("");
+
+      const loadedAmount = Math.max(tweets.length, PAGE_SIZE);
+
+      const result = await getTweets(0, loadedAmount);
+
+      setTweets(sortTweetsByDate(result.tweets));
+      setHasMore(result.hasMore);
+    } catch (err) {
+      setError(err.message);
     }
   }
 
@@ -60,21 +104,26 @@ export function TweetsProvider({ children, userName }) {
   }
 
   useEffect(() => {
-    firstLoadTweets();
+    loadFirstTweets();
+  }, []);
 
+  useEffect(() => {
     const intervalId = setInterval(() => {
-      loadTweets();
+      refreshLoadedTweets();
     }, 10000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [tweets.length]);
 
   const value = {
     tweets,
     isLoading,
     isAdding,
+    isLoadingMore,
+    hasMore,
     error,
     addTweet,
+    loadMoreTweets,
   };
 
   return (

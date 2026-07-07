@@ -1,5 +1,6 @@
 import CreateTweet from "../components/CreateTweet";
 import TweetsList from "../components/TweetsList";
+import InfiniteScrollTrigger from "../components/InfiniteScrollTrigger";
 import { useTweets } from "../context/TweetsContext";
 
 function HomePage() {
@@ -16,7 +17,10 @@ function HomePage() {
       {isLoading ? (
         <p className="loading">Loading tweets...</p>
       ) : (
-        <TweetsList />
+        <>
+          <TweetsList />
+          <InfiniteScrollTrigger />
+        </>
       )}
     </main>
   );

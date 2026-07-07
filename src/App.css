@@ -219,3 +219,9 @@ h1 {
   text-decoration: none;
   font-weight: bold;
 }
+
+.scroll-trigger {
+  padding: 20px;
+  text-align: center;
+  color: #8899a6;
+}
