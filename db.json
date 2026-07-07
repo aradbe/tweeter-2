@@ -1,0 +1,22 @@
+{
+  "Tweets": [
+    {
+      "id": 1,
+      "content": "Welcome to Tweeter 2.0 mock server!",
+      "userName": "Teacher",
+      "date": "2026-07-07T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "content": "This tweet comes from db.json.",
+      "userName": "Arad",
+      "date": "2026-07-07T11:00:00.000Z"
+    },
+    {
+      "content": "cake",
+      "userName": "Arad",
+      "date": "2026-07-07T12:14:26.341Z",
+      "id": 3
+    }
+  ]
+}

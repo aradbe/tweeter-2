@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const MAX_CHARS = 140;
 
-function CreateTweet({ onAddTweet }) {
+function CreateTweet({ onAddTweet, isAdding }) {
   const [content, setContent] = useState("");
 
   const isTooLong = content.length > MAX_CHARS;
@@ -11,7 +11,7 @@ function CreateTweet({ onAddTweet }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (isTooLong || isEmpty) {
+    if (isTooLong || isEmpty || isAdding) {
       return;
     }
 
@@ -25,6 +25,7 @@ function CreateTweet({ onAddTweet }) {
         placeholder="What are you thinking about?"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        disabled={isAdding}
       />
 
       <div className="tweet-form-bottom">
@@ -32,7 +33,9 @@ function CreateTweet({ onAddTweet }) {
           {content.length}/{MAX_CHARS}
         </span>
 
-        <button disabled={isTooLong || isEmpty}>Tweet</button>
+        <button disabled={isTooLong || isEmpty || isAdding}>
+          {isAdding ? "Posting..." : "Tweet"}
+        </button>
       </div>
 
       {isTooLong && (

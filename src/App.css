@@ -109,3 +109,16 @@ h1 {
   padding: 20px;
   color: #8899a6;
 }
+
+.server-error {
+  padding: 0 20px;
+}
+
+.loading {
+  padding: 20px;
+  color: #8899a6;
+}
+
+.create-tweet textarea:disabled {
+  color: #8899a6;
+}
