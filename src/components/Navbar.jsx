@@ -16,6 +16,7 @@ function Navbar() {
       {isLoggedIn && <NavLink to="/profile">Profile</NavLink>}
 
       {!isLoggedIn && <NavLink to="/login">Login</NavLink>}
+      {!isLoggedIn && <NavLink to="/signup">Sign Up</NavLink>}
 
       {isLoggedIn && (
         <button className="logout-button" onClick={handleLogout}>

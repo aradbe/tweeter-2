@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
@@ -54,6 +54,10 @@ function LoginPage() {
         <button disabled={isLoggingIn || !email || !password}>
           {isLoggingIn ? "Logging in..." : "Login"}
         </button>
+
+        <p className="auth-link">
+          Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+        </p>
       </form>
     </main>
   );

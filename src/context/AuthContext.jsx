@@ -42,6 +42,17 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function signup(email, password) {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
   async function logout() {
     const { error } = await supabase.auth.signOut();
 
@@ -56,6 +67,7 @@ export function AuthProvider({ children }) {
     isAuthLoading,
     isLoggedIn: !!session,
     login,
+    signup,
     logout,
   };
 

@@ -204,3 +204,18 @@ h1 {
   padding: 6px 14px;
   border-radius: 14px;
 }
+
+.success-message {
+  color: #00ba7c;
+}
+
+.auth-link {
+  color: #8899a6;
+  margin-top: 15px;
+}
+
+.auth-link a {
+  color: #1d9bf0;
+  text-decoration: none;
+  font-weight: bold;
+}
