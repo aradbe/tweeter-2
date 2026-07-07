@@ -1,22 +1,27 @@
 import { useState } from "react";
+import { useTweets } from "../context/TweetsContext";
 
 const MAX_CHARS = 140;
 
-function CreateTweet({ onAddTweet, isAdding }) {
+function CreateTweet() {
   const [content, setContent] = useState("");
+  const { addTweet, isAdding } = useTweets();
 
   const isTooLong = content.length > MAX_CHARS;
   const isEmpty = content.trim() === "";
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (isTooLong || isEmpty || isAdding) {
       return;
     }
 
-    onAddTweet(content);
-    setContent("");
+    const wasAdded = await addTweet(content);
+
+    if (wasAdded) {
+      setContent("");
+    }
   }
 
   return (

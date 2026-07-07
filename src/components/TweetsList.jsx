@@ -1,6 +1,9 @@
 import TweetItem from "./TweetItem";
+import { useTweets } from "../context/TweetsContext";
 
-function TweetsList({ tweets }) {
+function TweetsList() {
+  const { tweets } = useTweets();
+
   if (!tweets || tweets.length === 0) {
     return <p className="empty-message">No tweets yet.</p>;
   }

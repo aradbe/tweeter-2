@@ -3,6 +3,7 @@ import { useState } from "react";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar from "./components/Navbar";
+import { TweetsProvider } from "./context/TweetsContext";
 import {
   getUsernameFromStorage,
   saveUsernameToStorage,
@@ -18,21 +19,23 @@ function App() {
 
   return (
     <HashRouter>
-      <Navbar />
+      <TweetsProvider userName={userName}>
+        <Navbar />
 
-      <Routes>
-        <Route path="/" element={<HomePage userName={userName} />} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/profile"
-          element={
-            <ProfilePage
-              userName={userName}
-              onChangeUserName={handleChangeUserName}
-            />
-          }
-        />
-      </Routes>
+          <Route
+            path="/profile"
+            element={
+              <ProfilePage
+                userName={userName}
+                onChangeUserName={handleChangeUserName}
+              />
+            }
+          />
+        </Routes>
+      </TweetsProvider>
     </HashRouter>
   );
 }
