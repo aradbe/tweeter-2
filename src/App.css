@@ -122,3 +122,54 @@ h1 {
 .create-tweet textarea:disabled {
   color: #8899a6;
 }
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  background-color: #15202b;
+  border-left: 1px solid #38444d;
+  border-right: 1px solid #38444d;
+  border-bottom: 1px solid #38444d;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar a {
+  color: #8899a6;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a.active {
+  color: #1d9bf0;
+}
+
+.profile-box {
+  padding: 20px;
+}
+
+.profile-box h2 {
+  margin-top: 0;
+}
+
+.profile-box input {
+  display: block;
+  width: 100%;
+  max-width: 350px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #38444d;
+  background-color: transparent;
+  color: white;
+}
+
+.profile-box label {
+  display: block;
+  margin-top: 20px;
+  color: #8899a6;
+}

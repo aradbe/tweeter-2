@@ -3,9 +3,7 @@ import CreateTweet from "../components/CreateTweet";
 import TweetsList from "../components/TweetsList";
 import { createTweet, getTweets } from "../lib/tweetsApi";
 
-const USER_NAME = "Arad";
-
-function HomePage() {
+function HomePage({ userName }) {
   const [tweets, setTweets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -32,7 +30,7 @@ function HomePage() {
 
       const newTweet = {
         content,
-        userName: USER_NAME,
+        userName,
         date: new Date().toISOString(),
       };
 
