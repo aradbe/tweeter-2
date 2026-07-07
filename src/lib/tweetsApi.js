@@ -1,31 +1,27 @@
-const API_URL = "http://localhost:3001/Tweets";
+import { supabase } from "./supabaseClient";
 
 export async function getTweets() {
-  const response = await fetch(API_URL);
+  const { data, error } = await supabase
+    .from("Tweets")
+    .select("*")
+    .order("date", { ascending: false });
 
-  if (!response.ok) {
-    throw new Error("Failed to load tweets");
+  if (error) {
+    throw new Error(error.message);
   }
 
-  const tweets = await response.json();
-
-  return tweets.sort((a, b) => new Date(b.date) - new Date(a.date));
+  return data;
 }
 
 export async function createTweet(tweet) {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(tweet),
-  });
+  const { data, error } = await supabase
+    .from("Tweets")
+    .insert([tweet])
+    .select();
 
-  if (!response.ok) {
-    throw new Error("Failed to create tweet");
+  if (error) {
+    throw new Error(error.message);
   }
 
-  const newTweet = await response.json();
-
-  return newTweet;
+  return data[0];
 }
